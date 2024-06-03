@@ -1,0 +1,33 @@
+<!-- add_to_cart.php -->
+<?php
+session_start();
+
+// Simulated product data
+$products = [
+    1 => ['name' => 'Product 1', 'price' => 100],
+    2 => ['name' => 'Product 2', 'price' => 200],
+    // Add more products as needed
+];
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $product_id = $_POST['product_id'];
+
+    if (isset($products[$product_id])) {
+        // Initialize the cart if it doesn't exist
+        if (!isset($_SESSION['cart'])) {
+            $_SESSION['cart'] = [];
+        }
+
+        // Add the product to the cart
+        $_SESSION['cart'][$product_id] = $products[$product_id];
+
+        // Redirect to the Buy Option page
+        header("Location: buy_option.php");
+        exit();
+    } else {
+        echo "Invalid product ID.";
+    }
+} else {
+    echo "Invalid request method.";
+}
+?>
